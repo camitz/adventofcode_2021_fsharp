@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="day2course.txt" />
+    <Content Include="day1readings.txt" />
+    <Compile Include="Day2Puzzle2.fs" />
+    <Compile Include="Day2Puzzle1.fs" />
+    <Compile Include="Day1.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
