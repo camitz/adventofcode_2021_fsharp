@@ -41,7 +41,7 @@ let readLines filePath = IO.File.ReadLines(filePath)
                         |> Seq.map parse
                         |> Seq.map (fun x -> Command(fst x, snd x))
 
-let lines = readLines (__SOURCE_DIRECTORY__ + @"\day2course.txt")
+let lines = readLines @"C:\_martin\adventofcode\adventofcode\day2course.txt"
  
 let p0 = {Horz = 0; Depth = 0; Aim = 0}
 
