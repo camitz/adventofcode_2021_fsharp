@@ -16,7 +16,7 @@ let filter bitValuef mask s  =
     let bitValue = bitValuef bitSum s
     s |> Seq.filter (fun x -> x &&& mask > 0UL = bitValue)
     
-let o2Filter = filter (fun bitsum s -> bitsum * 2UL >= uint64(Seq.length s))
+let o2Filter = filter (fun bitsum s -> bitsum * 2UL >= uint64(Seq.length s)) //Partial application. Love it!
 let co2Filter = filter (fun bitsum s -> bitsum * 2UL < uint64(Seq.length s))
 
 let masks = [| for i in 0..11 -> 1UL <<< i|] |> Array.rev //work bitwise left to right
