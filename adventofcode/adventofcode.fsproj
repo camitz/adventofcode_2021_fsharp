@@ -6,9 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="day4boards.txt" />
     <Content Include="day3diagnostics.txt" />
     <Content Include="day2course.txt" />
     <Content Include="day1readings.txt" />
+    <Compile Include="Day4Puzzle1.fs" />
     <Compile Include="Day3Puzzle2.fs" />
     <Compile Include="Day3Puzzle1.fs" />
     <Compile Include="Day2Puzzle2.fs" />
