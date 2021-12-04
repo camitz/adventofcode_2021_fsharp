@@ -26,5 +26,11 @@ let hasBingo (board : int [,]) draws =
         
 
 let puzzle1 = 
-    printfn "%A" (Seq.toList (Seq.take 14 draws))
-    hasBingo b (Seq.take 14 draws)
+        draws 
+        |> Seq.toList 
+        |> List.scan (fun acc draw -> acc @ [draw]) List.empty<int>
+        |> List.tail
+        |> Seq.map (fun draws -> 
+            boards |> Seq.map (fun board -> 
+                    hasBingo board draws))
+        |> Seq.toList
