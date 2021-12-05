@@ -23,14 +23,35 @@ let hasBingo (board : int [,]) draws =
      ([0..4] |> Seq.exists (fun r -> (Set.intersect (set draws) (set board.[r,*])).Count = 5),
       [0..4] |> Seq.exists (fun c -> (Set.intersect (set draws) (set board.[*,c])).Count = 5))  
         <> (false,false)
-        
 
-let puzzle1 = 
+let drawSequence =
         draws 
         |> Seq.toList 
         |> List.scan (fun acc draw -> acc @ [draw]) List.empty<int>
         |> List.tail
-        |> Seq.map (fun draws -> 
-            boards |> Seq.map (fun board -> 
-                    hasBingo board draws))
-        |> Seq.toList
+
+//Thx: https://stackoverflow.com/a/12564172/168390
+let takeUntil predicate s = 
+    seq { yield! Seq.takeWhile predicate s
+          yield! s |> Seq.skipWhile predicate |> Seq.truncate 1 }
+
+//Thx: http://www.fssnip.net/oq/title/Array2D-to-one-dimension
+let flatten board = 
+     seq { for x in [0..(Array2D.length1 board) - 1] do 
+            for y in [0..(Array2D.length2 board) - 1] do 
+                yield board.[x, y] }
+
+let winningDraw = 
+    drawSequence
+    |> takeUntil (fun draws -> 
+        boards |> Seq.map (fun board -> hasBingo board draws)
+                |> Seq.forall (fun r -> not r))
+    |> Seq.last
+        
+let winningBoard = 
+    boards 
+    |> Seq.find (fun board -> hasBingo board winningDraw)
+    
+let puzzle1 = 
+            (Set.difference (set(flatten winningBoard)) (set winningDraw)
+            |> Seq.sum) * (Seq.last winningDraw)
