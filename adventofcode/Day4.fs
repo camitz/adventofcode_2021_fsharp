@@ -1,4 +1,4 @@
-﻿module Day4Puzzle1
+﻿module Day4
 
 open System 
 
@@ -30,10 +30,6 @@ let drawSequence =
         |> List.scan (fun acc draw -> acc @ [draw]) List.empty<int>
         |> List.tail
 
-//Thx: https://stackoverflow.com/a/12564172/168390
-let takeUntil predicate s = 
-    seq { yield! Seq.takeWhile predicate s
-          yield! s |> Seq.skipWhile predicate |> Seq.truncate 1 }
 
 //Thx: http://www.fssnip.net/oq/title/Array2D-to-one-dimension
 let flatten board = 
@@ -41,17 +37,48 @@ let flatten board =
             for y in [0..(Array2D.length2 board) - 1] do 
                 yield board.[x, y] }
 
+
+
 let winningDraw = 
     drawSequence
-    |> takeUntil (fun draws -> 
+    |> Seq.skipWhile (fun draws -> 
         boards |> Seq.map (fun board -> hasBingo board draws)
                 |> Seq.forall (fun r -> not r))
-    |> Seq.last
+    |> Seq.head
         
-let winningBoard = 
+let bingoBoards draw = 
     boards 
-    |> Seq.find (fun board -> hasBingo board winningDraw)
-    
+    |> Seq.filter (fun board -> hasBingo board draw)
+ 
+let winningBoard = Seq.head (bingoBoards winningDraw)
+
 let puzzle1 = 
             (Set.difference (set(flatten winningBoard)) (set winningDraw)
             |> Seq.sum) * (Seq.last winningDraw)
+
+
+
+
+let twoLastWinningDraws = 
+    drawSequence
+    |> Seq.skipWhile (fun draws -> 
+        boards |> Seq.map (fun board -> hasBingo board draws)
+                |> (Seq.filter (fun r -> not r) >> Seq.length) > 1)
+    |> Seq.take 2
+        
+
+let lastWinningBoards = 
+    twoLastWinningDraws
+    |> Seq.map (fun draws -> 
+        boards |> Seq.map (fun board -> hasBingo board draws))
+
+let lastWinningBoard = boards |> 
+        Seq.nth (
+            Seq.head lastWinningBoards
+            |> Seq.zip (Seq.last lastWinningBoards)
+            |> Seq.findIndex (fun x -> fst x <> snd x))
+        
+
+let puzzle2 = 
+            (Set.difference (set(flatten lastWinningBoard)) (set (Seq.last twoLastWinningDraws))
+            |> Seq.sum) * (Seq.last (Seq.last twoLastWinningDraws))
