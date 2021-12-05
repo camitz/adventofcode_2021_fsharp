@@ -13,8 +13,7 @@ type Control =
     | Down
     | Forward
 
-type Command = 
-    | Command of Control * n:int
+type Command = Command of Control * n:int
 
 let parseControl s = match s with
     | "up" -> Up
