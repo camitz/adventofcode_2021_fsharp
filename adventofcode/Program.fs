@@ -2,8 +2,8 @@
 
 [<EntryPoint>]
 let main argv =
-    printfn "Day 4, puzzle 2: %A" Day4.puzzle2
-    printfn "Day 4, puzzle 1: %A" Day4.puzzle1
+    printfn "Day 4, puzzle 2: %d" Day4.puzzle2
+    printfn "Day 4, puzzle 1: %d" Day4.puzzle1
     printfn "Day 3, puzzle 2: %d" Day3Puzzle2.puzzle2
     printfn "Day 3, puzzle 1: %d" Day3Puzzle1.puzzle1
     printfn "Day 2, puzzle 2: %d" Day2Puzzle2.puzzle2

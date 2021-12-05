@@ -57,14 +57,19 @@ let puzzle1 =
             |> Seq.sum) * (Seq.last winningDraw)
 
 
-
+//Thx: https://stackoverflow.com/a/12564172/168390
+let takeUntil predicate s = 
+    seq { yield! Seq.takeWhile predicate s
+          yield! s |> Seq.skipWhile predicate |> Seq.truncate 1 }
 
 let twoLastWinningDraws = 
     drawSequence
-    |> Seq.skipWhile (fun draws -> 
+    |> takeUntil (fun draws -> 
         boards |> Seq.map (fun board -> hasBingo board draws)
-                |> (Seq.filter (fun r -> not r) >> Seq.length) > 1)
-    |> Seq.take 2
+               |> Seq.exists (fun r -> not r))
+       |> Seq.rev
+       |> Seq.take 2
+       |> Seq.rev
         
 
 let lastWinningBoards = 
