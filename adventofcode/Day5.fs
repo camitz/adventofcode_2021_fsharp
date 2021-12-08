@@ -39,14 +39,16 @@ let direction line =
         | _ when y1 line = y2 line -> Horz
         | _ -> Diag //Puzzle 2 only
     
-let range line x1 x2 =
-    set[x1 line .. x2 line] 
+let yRange line =
+    match [y1 line.. y2 line] with
+    | [] -> List.rev [y2 line..y1 line]
+    | _ -> [y1 line..y2 line]
 
 let coveredPoints line =
     match direction line with 
-        | d when d = Vert -> range line y1 y2 |> Set.map (fun y -> (x1 line, y))
-        | d when d = Horz -> range line x1 x2 |> Set.map (fun x -> (x, y1 line))
-        | _ -> Set.empty
+        | d when d = Vert -> set(yRange line) |> Set.map (fun y -> (x1 line, y))
+        | d when d = Horz -> set[x1 line..x2 line] |> Set.map (fun x -> (x, y1 line))
+        | _ -> set (Seq.zip [x1 line..x2 line] (yRange line))
 
 
 let multipleCoveredPoints ls = 
@@ -62,5 +64,11 @@ let puzzle1 =
     lines 
     |> Seq.filter (fun x -> direction x <> Diag)
     |> multipleCoveredPoints
+    |> Seq.length
+
+let puzzle2 = 
+    lines 
+    |> multipleCoveredPoints
+    |> Seq.toList
     |> Seq.length
 
