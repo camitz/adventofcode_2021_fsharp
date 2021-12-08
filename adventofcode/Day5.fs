@@ -40,9 +40,7 @@ let direction line =
         | _ -> Diag //Puzzle 2 only
     
 let range line x1 x2 =
-    match (x1 line, x2 line) with
-    | (a,b) when a > b -> set[b..a]
-    | (a,b) -> set[a..b]
+    set[x1 line .. x2 line] 
 
 let coveredPoints line =
     match direction line with 
