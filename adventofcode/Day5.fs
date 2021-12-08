@@ -11,11 +11,22 @@ type Direction =
 //Prepare the datastructures
 let fileLines = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day5coords.txt")
 
+let order line =
+    match line with
+        | ((a,_),(c,_)) when a = c -> 
+            match line with
+                | ((_,b),(_,d)) when b > d -> (snd line, fst line)
+                | _ -> line
+        | ((a,_),(c,_)) when a > c -> (snd line, fst line)
+        | _ -> line
+
 let lines = fileLines 
             |> Seq.map (fun x -> x.Split (" -> ,".ToCharArray(),StringSplitOptions.RemoveEmptyEntries))
             |> Seq.map (fun x ->  Array.map (fun (y:string) -> Convert.ToInt32 y) x)
             |> Seq.map (fun x -> match x with
-                            | [|a;b;c;d;|] -> ((a,b),(c,d)))
+                                    | [|a;b;c;d;|] -> order ((a,b),(c,d)))
+
+
 
 let x1 line = fst (fst line)
 let x2 line  = fst (snd line)
