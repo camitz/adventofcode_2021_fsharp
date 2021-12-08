@@ -5,6 +5,7 @@ open System
 type Direction =
     | Horz
     | Vert
+    | Diag //Puzzle 2 only
 
 
 //Prepare the datastructures
@@ -23,9 +24,9 @@ let y2 line  = snd (snd line)
 
 let direction line =
     match line with 
-        | _ when x1 line = x2 line -> Some Vert
-        | _ when y1 line = y2 line -> Some Horz
-        | _ -> None
+        | _ when x1 line = x2 line -> Vert
+        | _ when y1 line = y2 line -> Horz
+        | _ -> Diag //Puzzle 2 only
     
 let range line x1 x2 =
     match (x1 line, x2 line) with
@@ -34,13 +35,13 @@ let range line x1 x2 =
 
 let coveredPoints line =
     match direction line with 
-        | Some d when d = Vert -> range line y1 y2 |> Set.map (fun y -> (x1 line, y))
-        | Some d when d = Horz -> range line x1 x2 |> Set.map (fun x -> (x, y1 line))
+        | d when d = Vert -> range line y1 y2 |> Set.map (fun y -> (x1 line, y))
+        | d when d = Horz -> range line x1 x2 |> Set.map (fun x -> (x, y1 line))
         | _ -> Set.empty
 
 
-let doubleCoveredPoints = 
-    lines 
+let multipleCoveredPoints ls = 
+    ls
     |> Seq.map (fun line -> coveredPoints line)
     |> Seq.concat
     |> Seq.groupBy id
@@ -48,5 +49,9 @@ let doubleCoveredPoints =
                                          | x when x >= 2 -> Some k
                                          | _            -> None)
 
-let puzzle1 = Seq.length doubleCoveredPoints 
-    
+let puzzle1 = 
+    lines 
+    |> Seq.filter (fun x -> direction x <> Diag)
+    |> multipleCoveredPoints
+    |> Seq.length
+
