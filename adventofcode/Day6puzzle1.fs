@@ -1,4 +1,4 @@
-﻿module Day6
+﻿module Day6Puzzle1
 
 open System 
 
@@ -22,6 +22,6 @@ let growTo m =
     grow 1 ages
 
 let puzzle1 = 
-    [1..7] |> List.iter (fun m ->
-        printfn "%A" (growTo m))
+    //[1..7] |> List.iter (fun m ->
+    //    printfn "%A" (growTo m))
     growTo 81 |> List.length
