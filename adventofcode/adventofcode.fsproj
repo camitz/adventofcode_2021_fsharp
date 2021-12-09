@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="day6ages.txt" />
     <Content Include="day5coords.txt" />
     <Content Include="day4boards.txt" />
     <Content Include="day3diagnostics.txt" />
     <Content Include="day2course.txt" />
     <Content Include="day1readings.txt" />
+    <Compile Include="Day6.fs" />
     <Compile Include="Day5.fs" />
     <Compile Include="Day4.fs" />
     <Compile Include="Day3Puzzle2.fs" />
