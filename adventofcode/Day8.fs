@@ -18,5 +18,13 @@ let puzzle1 =
                             Seq.sumBy (fun o -> if o.Length <=4 or o.Length = 7 then 1 else 0))
     |> Seq.sum
 
-let puzzle2 = 1
+let segmentCount inputs =
+    inputs
+    |> Seq.collect id
+    |> Seq.groupBy id
+    |> Seq.map (fun (s,n) -> (s, Seq.length n))
+
+let puzzle2 = 
+    (input >> segmentCount) (readings |> Seq.head)
+    |> Seq.toList
 
