@@ -43,34 +43,39 @@ let deduceConnections inputs =
             |> Seq.collect id
 
     //abfcadg
-    let r = [(segemenstWithCount 4 |> single)]
+    Seq.zip (Seq.rev("ebfcadg".ToCharArray())) 
+        (List.fold (fun r f -> (f r)::r) [] 
+            ([(fun r -> segemenstWithCount 4 |> single);
      
-    let r = (segemenstWithCount 6 |> single) :: r
+            (fun r -> segemenstWithCount 6 |> single);
      
-    let r = (segemenstWithCount 9 |> single) :: r
+            (fun r -> segemenstWithCount 9 |> single);
      
-    let r = (intersect  
-                    (segemenstWithCount 8)
-                    (segmentsOfDigitsOfLength 2)
-                |> single) :: r
+            (fun r -> intersect  
+                            (segemenstWithCount 8)
+                            (segmentsOfDigitsOfLength 2)
+                        |> single);
 
-    let r = (diff 
-                    (segmentsOfDigitsOfLength 3)
-                    r
-                |> single) :: r
+            (fun r -> diff 
+                            (segmentsOfDigitsOfLength 3)
+                            r
+                        |> single);
         
 
-    let r = (diff 
-                    (segmentsOfDigitsOfLength 4)
-                    r
-                |> single) :: r
+            (fun r -> diff 
+                            (segmentsOfDigitsOfLength 4)
+                            r
+                        |> single);
     
-    let r = (diff 
-                    (segmentsOfDigitsOfLength 7)
-                    r
-                |> single) :: r
+            (fun r -> diff 
+                            (segmentsOfDigitsOfLength 7)
+                            r
+                        |> single);
+            ])
+        )
+
+
     
-    Seq.zip (Seq.rev("ebfcadg".ToCharArray())) r
  
 
 let puzzle = 
