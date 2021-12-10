@@ -7,7 +7,7 @@ let lines = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day8readings.txt")
 
 let input = fst
 let output = snd
-let single = Seq.exactlyOne
+let single = Seq.exactlyOne 
 
 let intersect a b = 
     Set.intersect (set(a)) (set(b))
@@ -42,33 +42,36 @@ let deduceConnections inputs =
             |> Seq.map (fun d -> d.ToCharArray())
             |> Seq.collect id
 
-    [
-     yield ("e", segemenstWithCount 4 |> single)
+    //abfcadg
+    let r = [(segemenstWithCount 4 |> single)]
      
-     let b = segemenstWithCount 6 |> single
-     yield ("b", b)
+    let r = (segemenstWithCount 6 |> single) :: r
      
-     let f =  segemenstWithCount 9 |> single
-     yield ("f", f)
+    let r = (segemenstWithCount 9 |> single) :: r
      
-     let c = intersect 
+    let r = (intersect  
                     (segemenstWithCount 8)
                     (segmentsOfDigitsOfLength 2)
-                |> single
-     yield ("c", c)
+                |> single) :: r
 
-     yield ("a", diff
-                        (segmentsOfDigitsOfLength 3)
-                        [|c;f|]
-                    |> single
-           )
+    let r = (diff 
+                    (segmentsOfDigitsOfLength 3)
+                    r
+                |> single) :: r
+        
 
-     yield ("d", diff
-                        (segmentsOfDigitsOfLength 4)
-                        [|b;c;f|]
-                    |> single
-           )
-    ]
+    let r = (diff 
+                    (segmentsOfDigitsOfLength 4)
+                    r
+                |> single) :: r
+    
+    let r = (diff 
+                    (segmentsOfDigitsOfLength 7)
+                    r
+                |> single) :: r
+    
+    Seq.zip (Seq.rev("ebfcadg".ToCharArray())) r
+ 
 
 let puzzle = 
     input (readings |> Seq.head)
@@ -82,5 +85,5 @@ let puzzle2 =
     testString
     |> deduceConnections 
     //|> digitsOfLength 5
-    //|> Seq.toList
+    |> Seq.toList
 
