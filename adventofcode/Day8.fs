@@ -26,12 +26,13 @@ let puzzle1 =
     |> Seq.sum
 
 
-let segmentCount =
-    Seq.collect id >>
-    Seq.groupBy id >>
-    Seq.map (fun (s,n) -> (s, Seq.length n))
 
 let deduceConnections inputs =
+    let segmentCount =
+        Seq.collect id >>
+        Seq.groupBy id >>
+        Seq.map (fun (s,n) -> (s, Seq.length n))
+
     let segemenstWithCount m =
         segmentCount inputs
         |> Seq.choose (fun(s,n)-> if n = m then Some s else None)
@@ -77,35 +78,33 @@ let deduceConnections inputs =
         |> Map.ofSeq
 
 
-let rewire input = 
-    let mapping = deduceConnections input
- 
+let rewire (mapping : Map<char,char>) (input : string seq) =  
     input
         |> Seq.map (fun x -> x.ToCharArray() 
                                 |> Array.map (fun c -> mapping.[c])
                                 |> (fun s -> System.String(s))
                     )
 
-let targetDigits = [|("abcefg");"cf";"acdeg";"acdfg";"bcdf";"abdfg";"abdefg";"acf";"abcdefg";"abcdfg"|]
 
 let interpretDigit (digit : string) = 
+    let targetDigits = [|("abcefg");"cf";"acdeg";"acdfg";"bcdf";"abdfg";"abdefg";"acf";"abcdefg";"abcdfg"|]
     let chars = set(digit.ToCharArray())
 
     targetDigits
         |> Array.findIndex (fun d -> chars = set(d.ToCharArray()))
     
-
-let puzzle = 
-    input (readings |> Seq.head)
-    |> segmentCount
-    |> Seq.toList
+let deduceRewireAndInterpret inputOutput =
+    let mapping = deduceConnections (input inputOutput)
+    let rewiredOutput = rewire mapping (output inputOutput)
+    
+    rewiredOutput 
+        |> Seq.map (fun x -> (interpretDigit x).ToString())
+        |> String.concat "" 
+        |> Int32.Parse 
 
 
 let puzzle2 = 
-    //input (readings |> Seq.head)
-    targetDigits
-    |> rewire 
-    |> Seq.map interpretDigit
-    //|> digitsOfLength 5
-    |> Seq.toList
+    readings
+    |> Seq.map deduceRewireAndInterpret
+    |> Seq.sum
 
