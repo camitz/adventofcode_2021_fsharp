@@ -15,25 +15,28 @@ type Control =
 
 type Command = Command of Control * n:int
 
-let parseControl s = match s with
-    | "up" -> Up
-    | "down" -> Down
-    | "forward" -> Forward
+let parseControl s = 
+    match s with
+        | "up" -> Up
+        | "down" -> Down
+        | _ -> Forward
 
-let issueCommand p1 c = match c with
-    | Command(Up, n) -> {Horz = p1.Horz; 
-                         Depth = p1.Depth; 
-                         Aim = p1.Aim - n}
-    | Command(Down, n) -> {Horz = p1.Horz; 
-                           Depth = p1.Depth; 
-                           Aim = p1.Aim + n}
-    | Command(Forward, n) -> {Horz = p1.Horz + n; 
-                              Depth = p1.Depth + n * p1.Aim; 
-                              Aim = p1.Aim}
+let issueCommand p1 c = 
+    match c with
+        | Command(Up, n) -> {Horz = p1.Horz; 
+                             Depth = p1.Depth; 
+                             Aim = p1.Aim - n}
+        | Command(Down, n) -> {Horz = p1.Horz; 
+                               Depth = p1.Depth; 
+                               Aim = p1.Aim + n}
+        | Command(Forward, n) -> {Horz = p1.Horz + n; 
+                                  Depth = p1.Depth + n * p1.Aim; 
+                                  Aim = p1.Aim}
 
-let parse a = match a  with
-| [| c; n |] -> parseControl c, Int32.Parse(n)
-| _ -> Up, 0
+let parse a = 
+    match a  with
+        | [| c; n |] -> parseControl c, Int32.Parse(n)
+        | _ -> Up, 0
 
 let readLines filePath = IO.File.ReadLines(filePath) 
                         |> Seq.map (fun line -> line.Split ' ')

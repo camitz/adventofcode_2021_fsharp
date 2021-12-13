@@ -23,8 +23,7 @@ let order line =
 let lines = fileLines 
             |> Seq.map (fun x -> x.Split (" -> ,".ToCharArray(),StringSplitOptions.RemoveEmptyEntries))
             |> Seq.map (fun x ->  Array.map (fun (y:string) -> Convert.ToInt32 y) x)
-            |> Seq.map (fun x -> match x with
-                                    | [|a;b;c;d;|] -> order ((a,b),(c,d)))
+            |> Seq.map (fun [|a;b;c;d;|] -> order ((a,b),(c,d)))
 
 
 
