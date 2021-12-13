@@ -73,22 +73,39 @@ let deduceConnections inputs =
                         |> single);
             ])
         )
+        |> Seq.map (fun (k, v) -> (v,k))
+        |> Map.ofSeq
 
 
-    
+let rewire input = 
+    let mapping = deduceConnections input
  
+    input
+        |> Seq.map (fun x -> x.ToCharArray() 
+                                |> Array.map (fun c -> mapping.[c])
+                                |> (fun s -> System.String(s))
+                    )
+
+let targetDigits = [|("abcefg");"cf";"acdeg";"acdfg";"bcdf";"abdfg";"abdefg";"acf";"abcdefg";"abcdfg"|]
+
+let interpretDigit (digit : string) = 
+    let chars = set(digit.ToCharArray())
+
+    targetDigits
+        |> Array.findIndex (fun d -> chars = set(d.ToCharArray()))
+    
 
 let puzzle = 
     input (readings |> Seq.head)
     |> segmentCount
     |> Seq.toList
 
-let testString = [|"abcefg";"cf";"acdeg";"acdfg";"bcdf";"abdfg";"abdefg";"acf";"abcdefg";"abcdfg"|]
 
 let puzzle2 = 
     //input (readings |> Seq.head)
-    testString
-    |> deduceConnections 
+    targetDigits
+    |> rewire 
+    |> Seq.map interpretDigit
     //|> digitsOfLength 5
     |> Seq.toList
 
