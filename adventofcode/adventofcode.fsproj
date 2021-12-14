@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="day9manual.txt" />
+    <Content Include="day13manual.txt" />
     <Content Include="day8readings.txt" />
     <Content Include="day7positions.txt" />
     <Content Include="day6ages.txt" />
@@ -15,7 +15,7 @@
     <Content Include="day3diagnostics.txt" />
     <Content Include="day2course.txt" />
     <Content Include="day1readings.txt" />
-    <Compile Include="Day9.fs" />
+    <Compile Include="Day13.fs" />
     <Compile Include="Day8.fs" />
     <Compile Include="Day7.fs" />
     <Compile Include="Day6Puzzle2.fs" />
