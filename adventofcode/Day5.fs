@@ -45,8 +45,8 @@ let yRange line =
 
 let coveredPoints line =
     match direction line with 
-        | d when d = Vert -> set(yRange line) |> Set.map (fun y -> (x1 line, y))
-        | d when d = Horz -> set[x1 line..x2 line] |> Set.map (fun x -> (x, y1 line))
+        | Vert -> set(yRange line) |> Set.map (fun y -> (x1 line, y))
+        | Horz -> set[x1 line..x2 line] |> Set.map (fun x -> (x, y1 line))
         | _ -> set (Seq.zip [x1 line..x2 line] (yRange line))
 
 

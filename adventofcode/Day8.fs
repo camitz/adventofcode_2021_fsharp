@@ -22,7 +22,7 @@ let readings = lines
 let puzzle1 = 
     readings 
     |> Seq.map (fun rs -> output rs |> 
-                            Seq.sumBy (fun o -> if o.Length <=4 or o.Length = 7 then 1 else 0))
+                            Seq.sumBy (fun o -> if o.Length <=4 || o.Length = 7 then 1 else 0))
     |> Seq.sum
 
 
