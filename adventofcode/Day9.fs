@@ -48,7 +48,19 @@ let foldComposition =
     |> Seq.map (fun f -> foldPointsAlong f) 
     |> Seq.reduce (>>) 
 
+let printLine points =
+    let blank = "                                                                                  "
+    let line = 
+        points
+        |> List.pairwise
+        |> List.map (fun ((a,_),(b,_)) -> (if b-a = 1 then "" else blank.[0..(b-a-2)]) + "#")
+        |> List.reduce (+)
+    
+    printfn "%s%s%s" (blank.[0..(fst (List.head points)-1)]) "#" line
+
 let puzzle2 = 
     foldComposition points
     |> set
-    |> Set.count
+    |> Set.toList
+    |> List.groupBy snd   //By printout here we've determined ys to consecutive 0..5 and x <= 40
+    |> List.map (fun (_,ps) -> printLine ps)
