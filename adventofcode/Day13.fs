@@ -3,7 +3,7 @@
 open System 
 
 //Prepare the datastructures
-let lines = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day9manual.txt")
+let lines = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day13manual.txt")
             |> Seq.map (fun l -> l.Split(", =".ToCharArray(), StringSplitOptions.RemoveEmptyEntries))
 
 type Cart = X | Y
