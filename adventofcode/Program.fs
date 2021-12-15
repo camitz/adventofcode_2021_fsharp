@@ -2,9 +2,10 @@
 
 [<EntryPoint>]
 let main argv =
-    printfn "Day 13, puzzle 2:" 
-    Day13.puzzle2
-    printfn "Day 13, puzzle 1: %A" Day13.puzzle1
+    //printfn "Day 13, puzzle 2:" 
+    //Day13.puzzle2
+    //printfn "Day 13, puzzle 1: %A" Day13.puzzle1
+    printfn "Day 9, puzzle 1: %A" Day9.puzzle1
     //printfn "Day 8, puzzle 2: %A" Day8.puzzle2
     //printfn "Day 8, puzzle 1: %A" Day8.puzzle1
     //printfn "Day 7, puzzle 2: %d" Day7.puzzle2
