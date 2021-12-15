@@ -34,9 +34,39 @@ let lowPointHeat i j h =
 let lowPoints = 
     heatmap
     |> Array2D.mapi (fun h i j -> lowPointHeat h i j)
+    |> flatten
+    |> Seq.choose id
 
 let puzzle1 = 
     lowPoints
-    |> flatten
-    |> Seq.choose id
     |> Seq.sumBy (fun (i,j) -> heatmap.[i,j]+1)
+
+let determineBasin p =
+    let visited = Array2D.create (fst size) (snd size) false
+
+    let rec crawl p =
+        if fst p < 0 or snd p < 0  then
+            0
+        elif fst p >= fst size or snd p >= snd size  then
+            0
+        elif visited.[fst p, snd p] then
+            0
+        elif heatmap.[fst p, snd p] = 9 then
+            0
+        else 
+            Array2D.set visited (fst p) (snd p) true
+            1 +
+            (crawl (fst p, snd p + 1)) +
+            (crawl (fst p, snd p - 1)) +
+            (crawl (fst p + 1, snd p)) +
+            (crawl (fst p - 1, snd p)) 
+    
+    crawl p
+
+let puzzle2 =
+    lowPoints
+    |> Seq.map determineBasin 
+    |> Seq.sort
+    |> Seq.rev
+    |> Seq.take 3
+    |> Seq.reduce (*)
