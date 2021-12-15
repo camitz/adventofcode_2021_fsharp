@@ -19,7 +19,6 @@ let size = (heatmap0.Length, heatmap0.[0].Length)
 let heatmap = Array2D.init (fst size) (snd size) (fun i j ->  heatmap0.[i].[j])
 
 let lowPointHeat i j h =
-    //printfn "%A of %A: %d" (i,j) size h
     if j < snd size - 1 && heatmap.[i,j+1] <= h then 
         None
     elif i < fst size - 1 && heatmap.[i+1,j] <= h then 
@@ -29,7 +28,7 @@ let lowPointHeat i j h =
     elif i > 0 && heatmap.[i-1,j] <= h then 
         None
     else
-        Some(h+1)
+        Some(i,j)
         
 
 let lowPoints = 
@@ -40,4 +39,4 @@ let puzzle1 =
     lowPoints
     |> flatten
     |> Seq.choose id
-    |> Seq.sum
+    |> Seq.sumBy (fun (i,j) -> heatmap.[i,j]+1)
