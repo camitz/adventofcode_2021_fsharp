@@ -10,6 +10,14 @@ let openClose c =
         | '<' -> Some('>')
         | _ -> None
 
+let score c =
+    match c with
+        | ')' -> 3
+        | ']' -> 57
+        | '}' -> 1197
+        | '>' -> 25137
+        | _ -> 0
+
 let peek a =
     List.head a
 
@@ -26,7 +34,7 @@ let subsystems = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day10subsystems.tx
                 |> Seq.map (fun s -> s.ToCharArray())
 
 let rec parse stack remaining = 
-    printfn "%A %A" (String(Array.ofList remaining)) (String(Array.ofList stack))
+    //printfn "%A %A" (String(Array.ofList remaining)) (String(Array.ofList stack))
     match remaining with
         | [] -> None
         | head::tail -> 
@@ -39,6 +47,10 @@ let rec parse stack remaining =
 
 let puzzle1 = 
     subsystems
-    |> Seq.take 1
+    //|> Seq.take 1
     |> Seq.map Array.toList
     |> Seq.map (parse List.empty)
+    |> Seq.choose id
+    |> Seq.map score
+    |> Seq.sum
+    
