@@ -1,4 +1,4 @@
-﻿module Day10
+﻿module Day10puzzle1
 
 open System 
 
