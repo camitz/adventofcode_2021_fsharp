@@ -7,6 +7,10 @@ let flatten a =
             for y in [0..(Array2D.length2 a) - 1] do 
                 yield a.[x, y] }
 
+let zip (e:'a[,]) (f:'b[,]) : (('a*'b)[,]) =
+    e
+    |> Array2D.mapi (fun i j x -> (x, f.[i,j]))
+
 let lines = IO.File.ReadLines (__SOURCE_DIRECTORY__ + @"\day11energies.txt")
 
 let energies0 = 
@@ -34,24 +38,24 @@ let step (e, count) =
                             | _ -> true
                         )
 
-    let flashElementFromAdjacent (e:int[,]) (f:bool[,]) i j x =    
+    let flashElementFromAdjacent (ef:(int*bool)[,]) i j x =    
         x + ((adjacentCoords i j)
-                |> Seq.filter (fun (x,y) -> not f.[x,y])
-                |> Seq.map (fun (x,y) -> e.[x,y])
-                |> Seq.sumBy (fun a -> if a >= 10 then 1 else 0))
-            
+                |> Seq.filter (fun (x,y) -> not (snd ef.[x,y]))
+                |> Seq.map (fun (x,y) -> fst ef.[x,y])
+                |> Seq.sumBy (fun a -> if a >= 10 then 1 else 0))            
 
     let flashElements e f = 
-        e |> Array2D.mapi (flashElementFromAdjacent e f)
+        let flashFromThis = flashElementFromAdjacent (zip e f)
+        e |> Array2D.mapi flashFromThis
 
-    let setFlashed e (f:bool[,]) = 
-        e |> Array2D.mapi (fun i j x -> x >= 10 || f.[i,j])
+    let setFlashed ef = 
+        ef |> Array2D.map (fun x -> fst x >= 10 || snd x)
 
 
     //Then
     let rec subStep (e, f) =
         let e1 = flashElements e f
-        let f1 = setFlashed e f
+        let f1 = setFlashed (zip e f)
 
         if f1=f then
             (e1,f1)
