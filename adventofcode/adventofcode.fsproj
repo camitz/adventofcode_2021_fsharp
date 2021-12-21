@@ -8,6 +8,7 @@
   <ItemGroup>
     <Content Include="day13manual.txt" />
     <Content Include="day10subsystems.txt" />
+    <Content Include="day11energies.txt" />
     <Content Include="day9heatmap.txt" />
     <Content Include="day8readings.txt" />
     <Content Include="day7positions.txt" />
@@ -20,6 +21,7 @@
     <Compile Include="Day10puzzle2.fs" />
     <Compile Include="Day13.fs" />
     <Compile Include="Day10puzzle1.fs" />
+    <Compile Include="Day11.fs" />
     <Compile Include="Day9.fs" />
     <Compile Include="Day8.fs" />
     <Compile Include="Day7.fs" />

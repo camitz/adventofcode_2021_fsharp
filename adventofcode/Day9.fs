@@ -45,9 +45,9 @@ let determineBasin p =
     let visited = Array2D.create (fst size) (snd size) false
 
     let rec crawl p =
-        if fst p < 0 or snd p < 0  then
+        if fst p < 0 || snd p < 0  then
             0
-        elif fst p >= fst size or snd p >= snd size  then
+        elif fst p >= fst size || snd p >= snd size  then
             0
         elif visited.[fst p, snd p] then
             0
