@@ -18,17 +18,9 @@ let size = (energies0.Length, energies0.[0].Length)
 
 let energies = Array2D.init (fst size) (snd size) (fun i j ->  energies0.[i].[j])
     
-let mutable count = 0
-
-let step e0 =
+let step (e, count) =
     //First
-    let add1if f e = 
-        e
-        |> Array2D.map (fun x -> if f x then x + 1 else x)
-
-    let e1 = add1if (fun _ -> true) e0
-    //printfn "e1:\n%A" e1
-
+    let e = e |> Array2D.map (fun x -> x + 1)
 
     let adjacentCoords i j  =
          seq { for x in [-1..1] do 
@@ -41,8 +33,6 @@ let step e0 =
                             | (ii,jj) when ii=fst size || jj=snd size -> false
                             | _ -> true
                         )
-
-    //printfn "adj:%A" (Seq.toList (adjacent 3 0))
 
     let flashElementFromAdjacent (e:int[,]) (f:bool[,]) i j x =    
         x + ((adjacentCoords i j)
@@ -59,42 +49,28 @@ let step e0 =
 
 
     //Then
-    let subStep (e, f) =
-        let e11 = flashElements e f
-        //printfn "e11:\n%A" e1
-
+    let rec subStep (e, f) =
+        let e1 = flashElements e f
         let f1 = setFlashed e f
-        //printfn "f:\n%A" f1
 
-        (e11,f1)
+        if f1=f then
+            (e1,f1)
+        else
+            subStep (e1,f1)
     
-    let flash10 =
-        [0..20]
-        |> List.map (fun _ -> subStep)
-        |> List.reduce (>>)
+    let (e, f) = subStep (e, Array2D.create (fst size) (snd size) false)
 
-
-    let (e2, f1) = flash10 (e1, Array2D.create (fst size) (snd size) false)
-
-    //printfn "e2:%A" e2
     //Finally
-    let e3 = e2
-            |> Array2D.mapi (fun i j x -> if f1.[i,j] then 0 else x)
+    (e |> Array2D.mapi (fun i j x -> if f.[i,j] then 0 else x),
+            count +
+            ((flatten f)
+            |> Seq.filter id
+            |> Seq.length))
 
-    printfn "e3:\n%A" e3
-
-    count <- count +
-                ((flatten f1)
-                |> Seq.filter id
-                |> Seq.length)
-
-    e3
-
-let step100 =
-    [0..99]
+let stepN n =
+    [0..n-1]
     |> List.map (fun _ -> step)
     |> List.reduce (>>)
 
 let puzzle1 =
-    let t = step100 energies
-    count
+    snd (stepN 100 (energies, 0))
