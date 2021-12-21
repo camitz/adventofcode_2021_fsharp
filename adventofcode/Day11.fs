@@ -78,3 +78,12 @@ let stepN n =
 
 let puzzle1 =
     snd (stepN 100 (energies, 0))
+
+let rec findSync e i =
+    let s1 = step (e, 0)
+    if snd s1 = fst size * snd size then
+        i
+    else
+        findSync (fst s1) (i+1)
+    
+let puzzle2 = findSync energies 1
