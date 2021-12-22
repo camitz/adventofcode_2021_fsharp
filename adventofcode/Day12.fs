@@ -36,18 +36,21 @@ let adjacencyGraph2Graph (ns : 'a AdjacencyGraph) : 'a Graph=
                 |> Seq.toList
     (nodes, edges)
 
-let paths start finish (g : 'a AdjacencyGraph) =
+let paths start finish (g : 'a AdjacencyGraph) allowSingle =
     let map = g |> Map.ofList
-    let rec loop route visited = [
+    let rec loop route single visited = [
         let current = List.head route
         if current = finish then
             yield List.rev route
         else
             for next in map.[current] do
-                if bigCave next || visited |> Set.contains next |> not then
-                    yield! loop (next::route) (Set.add next visited)
+                if next <> "start" then
+                    if bigCave next || visited |> Set.contains next |> not  then
+                        yield! loop (next::route) single (Set.add next visited)
+                    if not (bigCave next) && not single && allowSingle then
+                        yield! loop (next::route) true (Set.add next visited)
     ]
-    loop [start] <| Set.singleton start
+    loop [start] false <| Set.singleton start
 
 
 //Prepare the datastructures
@@ -68,5 +71,12 @@ let caveSystem =
     )
 
 let puzzle1 =
-    paths "start" "end" (graph2AdjacencyGraph caveSystem)
+    paths "start" "end" (graph2AdjacencyGraph caveSystem) false
+    |> List.length
+
+let puzzle2 =
+    paths "start" "end" (graph2AdjacencyGraph caveSystem) true
+    |> Set.ofList //No idea why they're not distinct
+    |> Set.toList
+    |> List.sort
     |> List.length
