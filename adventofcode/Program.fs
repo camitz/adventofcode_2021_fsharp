@@ -5,8 +5,9 @@ let main argv =
     //printfn "Day 13, puzzle 2:" 
     //Day13.puzzle2
     //printfn "Day 13, puzzle 1: %A" Day13.puzzle1
-    printfn "Day 11, puzzle 2: %A" Day11.puzzle2
-    printfn "Day 11, puzzle 1: %A" Day11.puzzle1
+    printfn "Day 12, puzzle 1: %A" Day12.puzzle1
+    //printfn "Day 11, puzzle 2: %A" Day11.puzzle2
+    //printfn "Day 11, puzzle 1: %A" Day11.puzzle1
     //printfn "Day 10, puzzle 2: %A" Day10puzzle2.puzzle2
     //printfn "Day 10, puzzle 1: %A" Day10puzzle1.puzzle1
     //printfn "Day 9, puzzle 2: %A" Day9.puzzle2

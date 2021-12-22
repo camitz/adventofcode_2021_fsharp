@@ -9,6 +9,7 @@
     <Content Include="day13manual.txt" />
     <Content Include="day10subsystems.txt" />
     <Content Include="day11energies.txt" />
+    <Content Include="day12caves.txt" />
     <Content Include="day9heatmap.txt" />
     <Content Include="day8readings.txt" />
     <Content Include="day7positions.txt" />
@@ -19,6 +20,7 @@
     <Content Include="day2course.txt" />
     <Content Include="day1readings.txt" />
     <Compile Include="Day10puzzle2.fs" />
+    <Compile Include="Day12.fs" />
     <Compile Include="Day13.fs" />
     <Compile Include="Day10puzzle1.fs" />
     <Compile Include="Day11.fs" />
